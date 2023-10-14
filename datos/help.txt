@@ -1,0 +1,3 @@
+En esta carpeta irán todos los datos que necesita nuestra aplciacion para funcionar, ejemplo:
+	- Archivo con regimenes
+	-Archivo con la informacion de la empresa
