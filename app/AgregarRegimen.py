@@ -120,6 +120,3 @@ class AgregarRegimen(customtkinter.CTk):
             new_scaling_float = int(new_scaling.replace("%", "")) / 100
             customtkinter.set_widget_scaling(new_scaling_float)
 
-if __name__ == "__main__":
-    app = AgregarRegimen()
-    app.mainloop()

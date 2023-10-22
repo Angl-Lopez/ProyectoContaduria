@@ -1,5 +1,7 @@
 import tkinter
 import customtkinter
+import json
+import pandas as pd
 
 customtkinter.set_appearance_mode("light")
 customtkinter.set_default_color_theme("blue")
@@ -57,8 +59,10 @@ class EmpresaGUI(customtkinter.CTk):
         #Aun no tiene eventos
         self.continuar = customtkinter.CTkButton(frame_1, text="Continuar")
 
-        self.scaling_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["80%", "90%", "100%", "110%", "120%"],
-                                                               command=self.change_scaling_event)
+        self.guardar = customtkinter.CTkButton(frame_1, text="Guardar datos", command= self.guardar_datos)
+
+        #self.scaling_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["80%", "90%", "100%", "110%", "120%"],
+        #                                                      command=self.change_scaling_event)
         
         ################################################################################################
         #Posicionamiento
@@ -82,18 +86,75 @@ class EmpresaGUI(customtkinter.CTk):
 
         
         #Se coloca el boton en el centro del eje X pero debajo del ultimo entry siendo el 0.8 de la pantalla
-        self.continuar.place(relx=0.5, rely=0.8, anchor=tkinter.CENTER)
+        self.continuar.place(relx=0.4, rely=0.8, anchor=tkinter.CENTER)
+        self.guardar.place(relx=0.6, rely=0.8, anchor=tkinter.CENTER)
 
-        self.scaling_optionemenu.place(relx=0.7, rely=0.8, anchor=tkinter.CENTER)
+        #self.scaling_optionemenu.place(relx=0.7, rely=0.8, anchor=tkinter.CENTER)
 
 
-        self.scaling_optionemenu.set("100%")
+        #self.scaling_optionemenu.set("100%")
 
         def change_scaling_event(self, new_scaling: str):
             new_scaling_float = int(new_scaling.replace("%", "")) / 100
             customtkinter.set_widget_scaling(new_scaling_float)
 
-if __name__ == "__main__":
-    app = EmpresaGUI()
-    app.mainloop()
+    def getterNombre(self):
+        return self.nombre.get()
+
+    
+    def getterRfc(self):
+        return self.rfc.get()
+
+    def getterDireccion(self):
+        return self.direccion.get()
+
+    def getterRegimen(self):
+        return self.regimen.get()
+
+    def getterEjercicio(self):
+        return self.ejercicio.get()
+
+    
+    def guardar_datos(self):
+        # Obtener los valores de los campos Entry utilizando las funciones getter
+        nombre_empresa = self.getterNombre()
+        rfc_empresa = self.getterRfc()
+        direccion_empresa = self.getterDireccion()
+        regimen_empresa = self.getterRegimen()
+        ejercicio_empresa = self.getterEjercicio()
+
+        # Crear una instancia de la clase GetData y pasar los valores
+        save_data   = SaveData()
+        data        = GetData(nombre_empresa, rfc_empresa, direccion_empresa, regimen_empresa, ejercicio_empresa)
+        datos       = data.getData()  # Imprimir los datos (puedes reemplazar esto con tu lógica de almacenamiento)
+        save_data.saveData(datos)
+
+
+class GetData:
+    def __init__(self, nombre, rfc, direccion, regimen, ejercicio):
+        self.nombre     = nombre
+        self.rfc        = rfc
+        self.direccion  = direccion
+        self.regimen    = regimen
+        self.ejercicio  = ejercicio
+
+
+    def getData(self):
+
+        data = {
+            "nombre"    : self.nombre,
+            "rfc"       : self.rfc,
+            "direccion" : self.direccion,
+            "regimen"   : self.regimen,
+            "ejercicio" : self.ejercicio
+        }
+
+        return data
+
+class SaveData:
+    def saveData(self, data):
+        #../ProyectoContaduria-main/datos
+        file_path = "datos/EmpresaDatos.json"
+        with open(file_path, "w") as json_file:
+            json.dump(data, json_file)
 
