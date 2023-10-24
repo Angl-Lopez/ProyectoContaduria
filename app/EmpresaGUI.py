@@ -33,36 +33,47 @@ class EmpresaGUI(customtkinter.CTk):
         label_regimen = customtkinter.CTkLabel(frame_1, text="Regimen",font=customtkinter.CTkFont(size=20))
         label_ejercicio = customtkinter.CTkLabel(frame_1, text="Ejercicio", font=customtkinter.CTkFont(size=20))
 
+
+
+        data = pd.read_json("./datos/regimenes.json", orient="index")
+
+        data["Concatenado"] = data["Numero del regimen"] + " " + data["Nombre"]
+        values_concatenados = data["Concatenado"].tolist()
+
         # Crear las entradas de texto
         self.nombre = customtkinter.CTkEntry(frame_1,
                                             width=400,
                                             height=35,
                                             placeholder_text="Nombre de la empresa")
         self.rfc = customtkinter.CTkEntry(frame_1, 
-                                          width=400,
+                                         width=400,
                                           height=35,
                                           placeholder_text="RFC de la empresa")
+
         self.direccion = customtkinter.CTkEntry(frame_1, 
                                                 width=400,
                                                 height=35,
                                                 placeholder_text="Dirección de la empresa")
-        self.regimen = customtkinter.CTkEntry(frame_1, 
-                                              width=400,
-                                              height=35,
-                                              placeholder_text="")
+        self.regimen = customtkinter.CTkOptionMenu(frame_1,
+                                                    width=400,
+                                                    height=35,
+                                                    values=values_concatenados)
         self.ejercicio = customtkinter.CTkEntry(frame_1, 
                                                 width=400,
                                                 height=35,
                                                 placeholder_text="Año")
         
+        self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(frame_1, values=["Light", "Dark", "System"],
+                                                                       command=self.change_appearance_mode_event)
+        
+        self.scaling_optionemenu = customtkinter.CTkOptionMenu(frame_1, values=["80%", "90%", "100%", "110%", "120%"],
+                                                               command=self.change_scaling_event)
+
         #Buton para continuar a la siguiente pantalla
         #Aun no tiene eventos
         self.continuar = customtkinter.CTkButton(frame_1, text="Continuar")
 
         self.guardar = customtkinter.CTkButton(frame_1, text="Guardar datos", command= self.guardar_datos)
-
-        #self.scaling_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["80%", "90%", "100%", "110%", "120%"],
-        #                                                      command=self.change_scaling_event)
         
         ################################################################################################
         #Posicionamiento
@@ -89,19 +100,21 @@ class EmpresaGUI(customtkinter.CTk):
         self.continuar.place(relx=0.4, rely=0.8, anchor=tkinter.CENTER)
         self.guardar.place(relx=0.6, rely=0.8, anchor=tkinter.CENTER)
 
-        #self.scaling_optionemenu.place(relx=0.7, rely=0.8, anchor=tkinter.CENTER)
 
+        self.appearance_mode_optionemenu.place(relx=0.1, rely=0.9, anchor=tkinter.CENTER)
+        self.scaling_optionemenu.place(relx=0.1, rely=0.8, anchor=tkinter.CENTER)
+    
+    
+    def change_appearance_mode_event(self, new_appearance_mode: str):
+        customtkinter.set_appearance_mode(new_appearance_mode)
 
-        #self.scaling_optionemenu.set("100%")
-
-        def change_scaling_event(self, new_scaling: str):
-            new_scaling_float = int(new_scaling.replace("%", "")) / 100
-            customtkinter.set_widget_scaling(new_scaling_float)
+    def change_scaling_event(self, new_scaling: str):
+        new_scaling_float = int(new_scaling.replace("%", "")) / 100
+        customtkinter.set_widget_scaling(new_scaling_float)
 
     def getterNombre(self):
         return self.nombre.get()
 
-    
     def getterRfc(self):
         return self.rfc.get()
 
