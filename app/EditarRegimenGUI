@@ -1,4 +1,5 @@
 import customtkinter
+import tkinter
 
 customtkinter.set_appearance_mode("light")
 customtkinter.set_default_color_theme("blue")
@@ -9,6 +10,8 @@ class AgregarRegimen(customtkinter.CTk):
 
         self.title("Datos Generales")
         self.geometry(f"{1100}x{580}")
+
+
 
 if __name__ == "__main__":
     app = AgregarRegimen()

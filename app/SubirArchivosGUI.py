@@ -27,7 +27,7 @@ class SubirSrchivoGUI(customtkinter.CTk):
         ################################################################################################
 
         # Crear labels
-        label_datos_generales = customtkinter.CTkLabel(frame_1, text="Datos Generales", font=customtkinter.CTkFont(size=30, weight="bold"), text_color="#0f4e9c")
+        label_datos_generales = customtkinter.CTkLabel(frame_1, text="XML", font=customtkinter.CTkFont(size=30, weight="bold"), text_color="#0f4e9c")
         label_datos_generales.place(relx=0.5, rely=0.1, anchor=tkinter.CENTER)
         
         # Crear un CTkTabview para agregar pestañas

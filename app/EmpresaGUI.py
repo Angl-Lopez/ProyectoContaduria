@@ -33,12 +33,23 @@ class EmpresaGUI(customtkinter.CTk):
         label_regimen = customtkinter.CTkLabel(frame_1, text="Regimen",font=customtkinter.CTkFont(size=20))
         label_ejercicio = customtkinter.CTkLabel(frame_1, text="Ejercicio", font=customtkinter.CTkFont(size=20))
 
-
+        
 
         data = pd.read_json("./datos/regimenes.json", orient="index")
 
         data["Concatenado"] = data["Numero del regimen"] + " " + data["Nombre"]
         values_concatenados = data["Concatenado"].tolist()
+
+        # Lee el archivo JSON
+        with open('datos/Empresadatos.json', 'r') as archivo_json:
+            datos_empresa = json.load(archivo_json)
+
+        # Asigna los valores a variables
+        nombre_json = datos_empresa["nombre"]
+        rfc_json = datos_empresa["rfc"]
+        direccion_json = datos_empresa["direccion"]
+        #regimen_fiscal_json = datos_empresa["regimen"]
+        ejercicio_json = datos_empresa["ejercicio"]
 
         # Crear las entradas de texto
         self.nombre = customtkinter.CTkEntry(frame_1,
@@ -103,6 +114,14 @@ class EmpresaGUI(customtkinter.CTk):
 
         self.appearance_mode_optionemenu.place(relx=0.1, rely=0.9, anchor=tkinter.CENTER)
         self.scaling_optionemenu.place(relx=0.1, rely=0.8, anchor=tkinter.CENTER)
+
+
+        self.nombre.insert(0, nombre_json)
+        self.rfc.insert(0, rfc_json)
+        self.direccion.insert(0, direccion_json)
+        #self.regimen.insert(0, datos_empresa["regimen"])
+        self.ejercicio.insert(0, ejercicio_json)
+
     
     
     def change_appearance_mode_event(self, new_appearance_mode: str):
