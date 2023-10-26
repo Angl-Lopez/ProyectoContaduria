@@ -74,6 +74,8 @@ class EmpresaGUI(customtkinter.CTk):
         self.continuar = customtkinter.CTkButton(frame_1, text="Continuar")
 
         self.guardar = customtkinter.CTkButton(frame_1, text="Guardar datos", command= self.guardar_datos)
+
+        self.editar_regimen = customtkinter.CTkButton(frame_1, text="Editar Regimen", command= self.editar_regimenes)
         
         ################################################################################################
         #Posicionamiento
@@ -99,6 +101,7 @@ class EmpresaGUI(customtkinter.CTk):
         #Se coloca el boton en el centro del eje X pero debajo del ultimo entry siendo el 0.8 de la pantalla
         self.continuar.place(relx=0.4, rely=0.8, anchor=tkinter.CENTER)
         self.guardar.place(relx=0.6, rely=0.8, anchor=tkinter.CENTER)
+        self.editar_regimen.place(relx=0.8, rely=0.8, anchor=tkinter.CENTER)
 
 
         self.appearance_mode_optionemenu.place(relx=0.1, rely=0.9, anchor=tkinter.CENTER)
@@ -142,6 +145,9 @@ class EmpresaGUI(customtkinter.CTk):
         datos       = data.getData()  # Imprimir los datos (puedes reemplazar esto con tu lógica de almacenamiento)
         save_data.saveData(datos)
 
+    def editar_regimenes(self):
+        import subprocess
+        subprocess.Popen(["python", "app\EditarRegimenGUI.py"])
 
 class GetData:
     def __init__(self, nombre, rfc, direccion, regimen, ejercicio):
@@ -170,4 +176,3 @@ class SaveData:
         file_path = "datos/EmpresaDatos.json"
         with open(file_path, "w") as json_file:
             json.dump(data, json_file)
-
