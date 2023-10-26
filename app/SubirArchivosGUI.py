@@ -45,8 +45,9 @@ class SubirSrchivoGUI(customtkinter.CTk):
         #Tabview 2
         self.label = customtkinter.CTkLabel(self.tabview.tab("Visualizar XML"), text="Por favor, subir XML", font=customtkinter.CTkFont(size=20) )
         self.label.pack(pady=20, padx=60, expand=True)
-        self.textbox = customtkinter.CTkTextbox(self.tabview.tab("Visualizar XML"), width=250)
-        self.textbox.configure(state="disabled")
+        #self.textbox = customtkinter.CTkTextbox(self.tabview.tab("Visualizar XML"), width=250)
+        #self.textbox.configure(state="disabled")
+        self.checkbox_1 = customtkinter.CTkCheckBox(self.tabview.tab("Visualizar XML"), text="")
     
     #Funcion para subir un archivo
     def uploadFile(self):
@@ -57,11 +58,18 @@ class SubirSrchivoGUI(customtkinter.CTk):
             if xml_data is not None:
                 
                 #Editando el textbox para mostrar datos
-                self.textbox.configure(state="normal")
-                self.textbox.delete(1.0, tkinter.END)
-                self.textbox.pack(pady=20, padx=60, fill="x", expand=True)
-                self.textbox.insert(tkinter.END, ET.tostring(xml_data, encoding="unicode"))
-                self.textbox.configure(state="disabled")
+                #self.textbox.configure(state="normal")
+                #self.textbox.delete(1.0, tkinter.END)
+                #self.textbox.pack(pady=20, padx=60, fill="x", expand=True)
+                #self.textbox.insert(tkinter.END, ET.tostring(xml_data, encoding="unicode"))
+                #self.textbox.configure(state="disabled")
+
+                #Nombre del archivo
+                filename = file_path.split("/")[-1]
+
+                #Lista
+                self.checkbox_1.configure(text=filename)
+                self.checkbox_1.pack(expand=True)
                 
                 #Quitar label
                 self.label.pack_forget()
