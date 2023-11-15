@@ -1,6 +1,5 @@
-from EmpresaGUI import EmpresaGUI
-from General import General
+from Frame import App
 
 if __name__ == "__main__":
-    app = EmpresaGUI()
+    app = App()
     app.mainloop()

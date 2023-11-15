@@ -4,34 +4,17 @@ from tkinter.filedialog import askopenfilename
 import xml.etree.ElementTree as ET
 import customtkinter
 
-customtkinter.set_appearance_mode("light")
-customtkinter.set_default_color_theme("blue")
-
-class SubirSrchivoGUI(customtkinter.CTk):
-    def __init__(self):
-        super().__init__()
-
-        self.title("Datos Generales")
-        self.geometry(f"{1100}x{580}")
-        
-        # Crear un frame superior de color azul
-        top_frame = tkinter.Frame(self, bg="#0f4e9c", height=60)
-        top_frame.pack(fill="x")
-
-        frame_1 = customtkinter.CTkFrame(self)
-        frame_1.pack(pady=20, padx=60, fill="both", expand=True)
-        
-        
-        ################################################################################################
-        #Creacion de elementos
-        ################################################################################################
-
-        # Crear labels
-        label_datos_generales = customtkinter.CTkLabel(frame_1, text="XML", font=customtkinter.CTkFont(size=30, weight="bold"), text_color="#0f4e9c")
+class SubirArchivosGUI(customtkinter.CTkFrame):
+    def __init__(self, parent):
+        super().__init__(parent, corner_radius=0, fg_color="transparent")
+        self.grid_columnconfigure(0, weight=1)
+    
+    # Crear labels
+        label_datos_generales = customtkinter.CTkLabel(self, text="XML", font=customtkinter.CTkFont(size=30, weight="bold"), text_color="#0f4e9c")
         label_datos_generales.place(relx=0.5, rely=0.1, anchor=tkinter.CENTER)
         
         # Crear un CTkTabview para agregar pestañas
-        self.tabview = customtkinter.CTkTabview(master=frame_1, width=300)
+        self.tabview = customtkinter.CTkTabview(master=self, width=300)
         self.tabview.pack(pady=20, padx=60, fill="x", expand=True)
         
         # Agregar pestañas
@@ -49,6 +32,9 @@ class SubirSrchivoGUI(customtkinter.CTk):
         #self.textbox.configure(state="disabled")
         self.checkbox_1 = customtkinter.CTkCheckBox(self.tabview.tab("Visualizar XML"), text="")
     
+    def set_app_reference(self, app):
+        self.app = app
+
     #Funcion para subir un archivo
     def uploadFile(self):
         global file_path, xml_data
@@ -76,6 +62,7 @@ class SubirSrchivoGUI(customtkinter.CTk):
                 messagebox.showinfo("Carga de archivo completa", "El archivo se ha cargado correctamente.")
         else:
             pass
+        self.app.uploadFile()
     
     #Analizando XML
     def parse_xml(self, file_path):
@@ -85,7 +72,5 @@ class SubirSrchivoGUI(customtkinter.CTk):
         except Exception as e:
             messagebox.showerror("Error", f"No se pudo analizar el archivo XML:\n{str(e)}")
             return None
-
-if __name__ == "__main__":
-    app = SubirSrchivoGUI()
-    app.mainloop()
+        finally:
+            self.app.parse_xml()
