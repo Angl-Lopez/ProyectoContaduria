@@ -59,14 +59,6 @@ class EmpresaGUI(customtkinter.CTkFrame):
         for i, button in enumerate(buttons):
             button.place(relx=0.4 + i * 0.2, rely=0.8, anchor=tk.CENTER)
 
-        self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(self, values=["Light", "Dark", "System"],
-                                                                       command=parent.change_appearance_mode_event)
-        self.scaling_optionemenu = customtkinter.CTkOptionMenu(self, values=["80%", "90%", "100%", "110%", "120%"],
-                                                               command=parent.change_scaling_event)
-
-        self.appearance_mode_optionemenu.place(relx=0.1, rely=0.9, anchor=tk.CENTER)
-        self.scaling_optionemenu.place(relx=0.1, rely=0.8, anchor=tk.CENTER)
-
         # Rellenar datos iniciales
         self.nombre.insert(0, datos_empresa["nombre"])
         self.rfc.insert(0, datos_empresa["rfc"])
