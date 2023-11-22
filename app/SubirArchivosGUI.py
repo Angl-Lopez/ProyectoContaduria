@@ -1,15 +1,16 @@
 import tkinter
-from tkinter import messagebox
-from tkinter.filedialog import askopenfilename
+from tkinter import messagebox, filedialog, Listbox
 import xml.etree.ElementTree as ET
 import customtkinter
+import os
+import glob
 
 class SubirArchivosGUI(customtkinter.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent, corner_radius=0, fg_color="transparent")
         self.grid_columnconfigure(0, weight=1)
     
-    # Crear labels
+        # Crear labels
         label_datos_generales = customtkinter.CTkLabel(self, text="XML", font=customtkinter.CTkFont(size=30, weight="bold"), text_color="#0f4e9c")
         label_datos_generales.place(relx=0.5, rely=0.1, anchor=tkinter.CENTER)
         
@@ -18,48 +19,34 @@ class SubirArchivosGUI(customtkinter.CTkFrame):
         self.tabview.pack(pady=20, padx=60, fill="x", expand=True)
         
         # Agregar pestañas
-        self.tabview.add("Subir XML")
+        self.tabview.add("Subir Archivos XML")
         self.tabview.add("Visualizar XML")
         
         #Tabview 1
-        self.string_input_button = customtkinter.CTkButton(self.tabview.tab("Subir XML"), text="Cargar archivo", command=self.uploadFile)
+        self.string_input_button = customtkinter.CTkButton(self.tabview.tab("Subir Archivos XML"), text="Seleccionar Carpeta", command=self.uploadFile)
         self.string_input_button.pack(pady=20, padx=60, expand=True)
         
         #Tabview 2
         self.label = customtkinter.CTkLabel(self.tabview.tab("Visualizar XML"), text="Por favor, subir XML", font=customtkinter.CTkFont(size=20) )
         self.label.pack(pady=20, padx=60, expand=True)
-        #self.textbox = customtkinter.CTkTextbox(self.tabview.tab("Visualizar XML"), width=250)
-        #self.textbox.configure(state="disabled")
-        self.checkbox_1 = customtkinter.CTkCheckBox(self.tabview.tab("Visualizar XML"), text="")
+        self.xml_listbox = Listbox(self.tabview.tab("Visualizar XML"))
     
     def set_app_reference(self, app):
         self.app = app
 
     #Funcion para subir un archivo
     def uploadFile(self):
-        global file_path, xml_data
-        file_path = askopenfilename(filetypes=[("XML files", "*.xml")])
-        if file_path:
-            xml_data = self.parse_xml(file_path)
-            if xml_data is not None:
-                
-                #Editando el textbox para mostrar datos
-                #self.textbox.configure(state="normal")
-                #self.textbox.delete(1.0, tkinter.END)
-                #self.textbox.pack(pady=20, padx=60, fill="x", expand=True)
-                #self.textbox.insert(tkinter.END, ET.tostring(xml_data, encoding="unicode"))
-                #self.textbox.configure(state="disabled")
+        folder_path = filedialog.askdirectory()
+        if folder_path:
+            xml_files = glob.glob(os.path.join(folder_path, '*.xml'))
+            self.xml_listbox.delete(0, tkinter.END)
+            for file in xml_files:
+                self.xml_listbox.insert(tkinter.END, os.path.basename(file))
 
-                #Nombre del archivo
-                filename = file_path.split("/")[-1]
-
-                #Lista
-                self.checkbox_1.configure(text=filename)
-                self.checkbox_1.pack(expand=True)
-                
-                #Quitar label
-                self.label.pack_forget()
-                messagebox.showinfo("Carga de archivo completa", "El archivo se ha cargado correctamente.")
+            # Cambio aquí: Uso de pack en lugar de grid
+            self.xml_listbox.pack(padx=20, pady=20, expand=True)
+            self.label.pack_forget()
+            messagebox.showinfo("Carga de archivos completa", "Los archivos se ha cargado correctamente.")
         else:
             pass
         self.app.uploadFile()
