@@ -45,19 +45,19 @@ class EmpresaGUI(customtkinter.CTkFrame):
         self.editar_regimen = customtkinter.CTkButton(self, text="Editar Regimen", command=self.editar_regimenes)
 
         label_datos_generales.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
-        label_nombre.place(relx=0.35, rely=0.2, anchor=tk.CENTER)
-        label_rfc.place(relx=0.35, rely=0.3, anchor=tk.CENTER)
-        label_direccion.place(relx=0.35, rely=0.4, anchor=tk.CENTER)
-        label_regimen.place(relx=0.35, rely=0.5, anchor=tk.CENTER)
-        label_ejercicio.place(relx=0.35, rely=0.6, anchor=tk.CENTER)
+        label_nombre.place(relx=0.25, rely=0.2, anchor=tk.CENTER)
+        label_rfc.place(relx=0.25, rely=0.3, anchor=tk.CENTER)
+        label_direccion.place(relx=0.25, rely=0.4, anchor=tk.CENTER)
+        label_regimen.place(relx=0.25, rely=0.5, anchor=tk.CENTER)
+        label_ejercicio.place(relx=0.25, rely=0.6, anchor=tk.CENTER)
 
         entries = [self.nombre, self.rfc, self.direccion, self.regimen, self.ejercicio]
         for i, entry in enumerate(entries):
-            entry.place(relx=0.6, rely=0.2 + i * 0.1, anchor=tk.CENTER)
+            entry.place(relx=0.55, rely=0.2 + i * 0.1, anchor=tk.CENTER)
 
         buttons = [self.continuar, self.guardar, self.editar_regimen]
         for i, button in enumerate(buttons):
-            button.place(relx=0.4 + i * 0.2, rely=0.8, anchor=tk.CENTER)
+            button.place(relx=0.30 + i * 0.2, rely=0.8, anchor=tk.CENTER)
 
         # Rellenar datos iniciales
         self.nombre.insert(0, datos_empresa["nombre"])

@@ -5,7 +5,8 @@ import pandas as pd
 import json
 import tkinter as tk
 from EmpresaGUI import EmpresaGUI
-from SubirArchivosGUI import SubirArchivosGUI
+from SubirArchivosGUI import SubirArchivosGUI 
+from RevisarGUI import RevisarGUI
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -18,13 +19,13 @@ class App(customtkinter.CTk):
         self.grid_columnconfigure(1, weight=1)
 
         image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test_images")
-        self.logo_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "CustomTkinter_logo_single.png")), size=(26, 26))
+        self.logo_image = customtkinter.CTkImage(Image.open(os.path.join(image_path, "logo_ejercito.png")), size=(26, 26))
         self.home_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path, "home_dark.png")),
                                                  dark_image=Image.open(os.path.join(image_path, "home_light.png")), size=(20, 20))
-        self.chat_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path, "chat_dark.png")),
-                                                 dark_image=Image.open(os.path.join(image_path, "chat_light.png")), size=(20, 20))
-        self.add_user_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path, "add_user_dark.png")),
-                                                     dark_image=Image.open(os.path.join(image_path, "add_user_light.png")), size=(20, 20))
+        self.chat_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path, "upload_icon.png")),
+                                                 dark_image=Image.open(os.path.join(image_path, "iconlight.png")), size=(20, 20))
+        self.add_user_image = customtkinter.CTkImage(light_image=Image.open(os.path.join(image_path, "revisar_icon_dark.png")),
+                                                     dark_image=Image.open(os.path.join(image_path, "revisar_icon_light.png")), size=(20, 20))
 
         self.navigation_frame = customtkinter.CTkFrame(self, corner_radius=0)
         self.navigation_frame.grid(row=0, column=0, sticky="nsew")
@@ -49,6 +50,10 @@ class App(customtkinter.CTk):
                                                       image=self.add_user_image, anchor="w", command=self.frame_3_button_event)
         self.frame_3_button.grid(row=3, column=0, sticky="ew")
 
+        self.scaling_optionemenu = customtkinter.CTkOptionMenu(self.navigation_frame, values=["80%", "90%", "100%", "110%", "120%"],
+                                                                command=self.change_scaling_event)
+        self.scaling_optionemenu.grid(row=5, column=0, padx=20, pady=20, sticky="s")
+
         self.appearance_mode_menu = customtkinter.CTkOptionMenu(self.navigation_frame, values=["Light", "Dark", "System"],
                                                                 command=self.change_appearance_mode_event)
         self.appearance_mode_menu.grid(row=6, column=0, padx=20, pady=20, sticky="s")
@@ -58,7 +63,7 @@ class App(customtkinter.CTk):
 
         self.home_frame = EmpresaGUI(self, datos_empresa)
         self.second_frame = SubirArchivosGUI(self)
-        self.third_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
+        self.third_frame = RevisarGUI(self)
 
         self.select_frame_by_name("Datos Empresa")
 
